@@ -1,4 +1,4 @@
-package com.github.tiagofernandez
+package cantina
 
 import java.text.SimpleDateFormat
 

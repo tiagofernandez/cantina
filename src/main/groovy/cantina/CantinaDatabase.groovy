@@ -1,4 +1,4 @@
-package com.github.tiagofernandez
+package cantina
 
 import org.h2.tools.Csv
 import org.h2.tools.SimpleResultSet

@@ -66,7 +66,7 @@
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>
-              <mainClass>com.github.tiagofernandez.Cantina</mainClass>
+              <mainClass>cantina.Cantina</mainClass>
             </manifest>
           </archive>
         </configuration>

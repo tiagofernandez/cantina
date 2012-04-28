@@ -1,4 +1,6 @@
-package com.github.tiagofernandez
+package cantina
+
+import cantina.CantinaDatabase
 
 class CantinaDatabaseTest extends GroovyTestCase {
 

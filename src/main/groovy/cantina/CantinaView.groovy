@@ -1,4 +1,4 @@
-package com.github.tiagofernandez
+package cantina
 
 import java.awt.*
 import java.awt.event.*
