@@ -19,12 +19,7 @@ class CantinaDatabase {
 
   List goingList() {
     refreshRows()
-    def result = []
-    rows.each { row ->
-      if (row[1] == 'yes')
-        result << row[0]
-    }
-    result
+    rows.findAll { it[1] == 'yes' }.collect { it[0] }
   }
 
   void setGoing(String name) {
