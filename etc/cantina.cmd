@@ -1,1 +1,0 @@
-start javaw -jar \\NCE-TSTSEP-D2\tfernandez\cantina\cantina.jar

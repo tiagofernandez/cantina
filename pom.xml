@@ -7,10 +7,10 @@
 
   <groupId>com.github.tiagofernandez</groupId>
   <artifactId>cantina</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
 
   <build>
-    <finalName>${project.artifactId}</finalName>
+    <!--finalName>${project.artifactId}</finalName-->
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
