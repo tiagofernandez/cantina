@@ -1,7 +1,5 @@
 package cantina
 
-import cantina.CantinaDatabase
-
 class CantinaDatabaseTest extends GroovyTestCase {
 
   final filePath = 'target/cantina.csv'

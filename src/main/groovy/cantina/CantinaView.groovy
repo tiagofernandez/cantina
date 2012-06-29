@@ -17,13 +17,13 @@ class CantinaView {
   }
 
   void load() {
-    SwingUtilities.invokeLater(new Runnable() {
+    SwingUtilities.invokeLater new Runnable() {
       public void run() {
         setLookAndFeel()
         setTrayIcon()
         refreshPopupMenu()
       }
-    });
+    }
   }
 
   void unload() {
@@ -45,30 +45,33 @@ class CantinaView {
     def imagePath = 'images/food.gif'
     def imageURL  = Thread.currentThread().contextClassLoader.getResource(imagePath)
 
-    if (imageURL) {
-      trayIcon = new TrayIcon(new ImageIcon(imageURL).image)
-      trayIcon.toolTip = 'Cantina?'
-      trayIcon.addMouseListener(new MouseAdapter() {
+    if (!imageURL)
+      throw new IllegalStateException("Image not found: $imagePath")
+
+    trayIcon = new TrayIcon(new ImageIcon(imageURL).image).with {
+      toolTip = 'Cantina?'
+      addMouseListener(new MouseAdapter() {
         void mouseClicked(MouseEvent mouseEvent) {
           refreshPopupMenu()
         }
       })
-      systemTray.add(trayIcon)
+      return it
     }
-    else {
-      throw new IllegalStateException("Image not found: $imagePath")
-    }
+    systemTray.add(trayIcon)
   }
 
   private void refreshPopupMenu() {
     def popupMenu = new PopupMenu()
     rebuildGoingList(popupMenu)
-    popupMenu.addSeparator()
-    popupMenu.add(buildGoingMenuItem())
-    popupMenu.add(buildNotGoingMenuItem())
-    popupMenu.addSeparator()
-    popupMenu.add(buildExitItem())
-    trayIcon.popupMenu = popupMenu
+
+    trayIcon.popupMenu = popupMenu.with {
+      addSeparator()
+      add(buildGoingMenuItem())
+      add(buildNotGoingMenuItem())
+      addSeparator()
+      add(buildExitItem())
+      return it
+    }
   }
 
   private MenuItem buildGoingMenuItem() {

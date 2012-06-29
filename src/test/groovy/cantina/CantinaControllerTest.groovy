@@ -1,7 +1,5 @@
 package cantina
 
-import cantina.CantinaController
-
 class CantinaControllerTest extends GroovyTestCase {
 
   def controller = new CantinaController()
