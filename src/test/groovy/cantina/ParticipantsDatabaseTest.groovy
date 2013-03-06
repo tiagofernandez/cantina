@@ -1,11 +1,11 @@
 package cantina
 
-class CantinaDatabaseTest extends GroovyTestCase {
+class ParticipantsDatabaseTest extends GroovyTestCase {
 
   final filePath = 'target/cantina.csv'
-  final database = new CantinaDatabase(filePath)
+  final database = new ParticipantsDatabase(filePath)
 
-  CantinaDatabaseTest() {
+  ParticipantsDatabaseTest() {
     new File(filePath).delete()
   }
 

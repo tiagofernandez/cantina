@@ -6,48 +6,19 @@ import org.h2.tools.SimpleResultSet
 import java.sql.Types
 import java.sql.ResultSet
 
-class CantinaDatabase {
+abstract class CantinaDatabase {
 
-  private final def columns = ['NAME', 'GOING']
-  private final def rows = []
+  protected final def columns = []
+  protected final def rows = []
 
   private final String filePath
 
-  CantinaDatabase(String filePath) {
+  CantinaDatabase(filePath, cols) {
     this.filePath = filePath
+    cols.each { this.columns << it }
   }
 
-  List goingList() {
-    refreshRows()
-    rows.findAll { it[1] == 'yes' }.collect { it[0] }
-  }
-
-  void setGoing(String name) {
-    setGoingFlag(name, 'yes')
-  }
-
-  void setNotGoing(String name) {
-    setGoingFlag(name, 'no')
-  }
-
-  private void setGoingFlag(name, value) {
-    refreshRows()
-    def row = findRow(name)
-    row[0] = name
-    row[1] = value
-    persist()
-  }
-
-  private def findRow(name) {
-    def row = rows.find { it[0] == name }
-    if (!row) {
-      row = [name, '?']
-      rows << row
-    }
-    return row
-  }
-
-  private void persist() {
+  protected void persist() {
     def rs = new SimpleResultSet()
     columns.each { column ->
       rs.addColumn(column, Types.VARCHAR, 255, 0)
@@ -58,7 +29,7 @@ class CantinaDatabase {
     new Csv().write(filePath, rs, null)
   }
 
-  private void refreshRows() {
+  protected void refreshRows() {
     rows.clear()
     if (new File(filePath).exists()) {
       ResultSet rs = new Csv().read(filePath, null, null)

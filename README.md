@@ -4,7 +4,7 @@ Cantina is a Windows system tray application for notifying people you use to hav
 lunch together with with only 2 clicks: the first one to display the list of people
 who are going, and the second to register oneself to the lunch event. It is targeted
 to small groups, having as goal avoid opening endless chat windows for asking who
-is willing to go and what time.
+is willing to go and what time. It also supports comments!
 
 
 ## Author

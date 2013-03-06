@@ -17,13 +17,9 @@ class CantinaView {
   }
 
   void load() {
-    SwingUtilities.invokeLater new Runnable() {
-      public void run() {
-        setLookAndFeel()
-        setTrayIcon()
-        refreshPopupMenu()
-      }
-    }
+    setLookAndFeel()
+    setTrayIcon()
+    refreshPopupMenu()
   }
 
   void unload() {
@@ -64,10 +60,18 @@ class CantinaView {
     def popupMenu = new PopupMenu()
     rebuildGoingList(popupMenu)
 
-    trayIcon.popupMenu = popupMenu.with {
+    popupMenu = popupMenu.with {
       addSeparator()
       add(buildGoingMenuItem())
       add(buildNotGoingMenuItem())
+      addSeparator()
+      return it
+    }
+    rebuildComments(popupMenu)
+
+    trayIcon.popupMenu = popupMenu.with {
+      addSeparator()
+      add(buildCommentMenuItem())
       addSeparator()
       add(buildExitItem())
       return it
@@ -92,6 +96,18 @@ class CantinaView {
     notGoingItem
   }
 
+  private MenuItem buildCommentMenuItem() {
+    def commentItem = new MenuItem('Comentar')
+    commentItem.addActionListener({ event ->
+      def comment = JOptionPane.showInputDialog(null, 'Seja breve...', 'Novo comentario', JOptionPane.PLAIN_MESSAGE)
+      if (comment && comment.trim().length() > 0) {
+        controller.addComment(comment.trim())
+        trayIcon.displayMessage('', 'Comentario adicionado!', TrayIcon.MessageType.NONE)
+      }
+    } as ActionListener)
+    commentItem
+  }
+
   private MenuItem buildExitItem() {
     def exitItem = new MenuItem('Sair')
     exitItem.addActionListener({ event ->
@@ -106,5 +122,13 @@ class CantinaView {
       popupMenu.add(new MenuItem('(ninguem)'))
     else
       goingList.each { popupMenu.add(new MenuItem(it as String)) }
+  }
+
+  private void rebuildComments(popupMenu) {
+    def comments = controller.allComments
+    if (comments.empty)
+      popupMenu.add(new MenuItem('(nenhum comentario)'))
+    else
+      comments.each { popupMenu.add(new MenuItem(it as String)) }
   }
 }

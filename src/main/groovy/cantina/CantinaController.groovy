@@ -7,25 +7,38 @@ class CantinaController {
   final basePath = "\\\\NCE-TSTSEP-D2\\tfernandez\\cantina\\csv"
 
   List getGoingList() {
-    database.goingList()
+    participantsDatabase.goingList()
   }
 
   void setGoing() {
-    database.setGoing(username)
+    participantsDatabase.setGoing(username)
   }
 
   void setNotGoing() {
-    database.setNotGoing(username)
+    participantsDatabase.setNotGoing(username)
   }
 
-  String getUsername() {
+  List getAllComments() {
+    commentsDatabase.allComments()
+  }
+
+  void addComment(comment) {
+    commentsDatabase.addComment(username, comment)
+  }
+
+  private String getUsername() {
     // InetAddress.localHost.hostName
     System.getProperty('user.name')
   }
 
-  private CantinaDatabase getDatabase() {
+  private ParticipantsDatabase getParticipantsDatabase() {
     def filePath = "${basePath}\\${this.currentDate}.csv"
-    new CantinaDatabase(filePath)
+    new ParticipantsDatabase(filePath)
+  }
+
+  private CommentsDatabase getCommentsDatabase() {
+    def filePath = "${basePath}\\${this.currentDate}_comments.csv"
+    new CommentsDatabase(filePath)
   }
 
   private String getCurrentDate() {
