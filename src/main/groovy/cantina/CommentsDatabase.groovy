@@ -11,7 +11,7 @@ class CommentsDatabase extends CantinaDatabase {
 
   List allComments() {
     refreshRows()
-    rows.findAll { check(it) }.collect { "${it[2]} ${it[0]} > ${truncate(it[1], 50)}" }
+    rows.findAll { check(it) }.collect { "${it[2]} ${it[0]}: ${truncate(it[1], 50)}" }
   }
 
   void addComment(name, comment) {
