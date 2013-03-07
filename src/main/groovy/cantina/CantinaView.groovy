@@ -70,7 +70,6 @@ class CantinaView {
     rebuildComments(popupMenu)
 
     trayIcon.popupMenu = popupMenu.with {
-      addSeparator()
       add(buildCommentMenuItem())
       addSeparator()
       add(buildExitItem())
@@ -126,9 +125,9 @@ class CantinaView {
 
   private void rebuildComments(popupMenu) {
     def comments = controller.allComments
-    if (comments.empty)
-      popupMenu.add(new MenuItem('(nenhum comentario)'))
-    else
+    if (!comments.empty) {
       comments.each { popupMenu.add(new MenuItem(it as String)) }
+      popupMenu.addSeparator()
+    }
   }
 }
