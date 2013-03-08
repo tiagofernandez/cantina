@@ -1,7 +1,8 @@
 package cantina
 
-import java.text.SimpleDateFormat
 import java.util.zip.CRC32
+
+import static cantina.CantinaUtils.*
 
 class CommentsDatabase extends CantinaDatabase {
 
@@ -11,12 +12,12 @@ class CommentsDatabase extends CantinaDatabase {
 
   List allComments() {
     refreshRows()
-    rows.findAll { check(it) }.collect { "${it[2]} ${it[0]}: ${truncate(it[1], 50)}" }
+    rows.findAll { check(it) }
   }
 
   void addComment(name, comment) {
     refreshRows()
-    rows << [name, comment, currentTime, computeToken(comment)]
+    rows << [name, comment, currentDate('HH:mm'), computeToken(comment)]
     persist()
   }
 
@@ -34,17 +35,5 @@ class CommentsDatabase extends CantinaDatabase {
     def crc32 = new CRC32()
     crc32.update(sha.bytes, 0, shaBytes.length)
     return "${truncate(sha, 32)}+${crc32.value}"
-  }
-
-  private String truncate(value, max) {
-    if (value && value.length() > max) {
-      value = "${value.substring(0, max)}..."
-    }
-    return value
-  }
-
-  private String getCurrentTime() {
-    def formatter = new SimpleDateFormat('HH:mm')
-    formatter.format(new Date())
   }
 }

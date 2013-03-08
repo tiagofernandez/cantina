@@ -1,6 +1,6 @@
 package cantina
 
-import java.text.SimpleDateFormat
+import static cantina.CantinaUtils.*
 
 class CantinaController {
 
@@ -19,7 +19,7 @@ class CantinaController {
   }
 
   List getAllComments() {
-    commentsDatabase.allComments()
+    commentsDatabase.allComments().collect { "${it[2]} ${it[0]}: ${truncate(it[1], 50)}" }
   }
 
   void addComment(comment) {
@@ -42,7 +42,6 @@ class CantinaController {
   }
 
   private String getCurrentDate() {
-    def formatter = new SimpleDateFormat('yyyyMMdd')
-    formatter.format(new Date())
+    currentDate('yyyyMMdd')
   }
 }
