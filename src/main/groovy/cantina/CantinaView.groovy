@@ -8,23 +8,36 @@ class CantinaView {
 
   private final CantinaController controller
   private final SystemTray systemTray
+  private final Timer gcTimer
 
   private TrayIcon trayIcon
 
   CantinaView(CantinaController controller) {
     this.controller = controller
     this.systemTray = SystemTray.systemTray
+    this.gcTimer = new Timer(60000, { // 1 minute
+      System.gc()
+    } as ActionListener)
   }
 
   void load() {
-    setLookAndFeel()
-    setTrayIcon()
-    refreshPopupMenu()
+    SwingUtilities.invokeLater(new Runnable() {
+      public void run() {
+        setLookAndFeel()
+        setTrayIcon()
+        refreshPopupMenu()
+        startGarbageCollectionTimer()
+      }
+    })
   }
 
   void unload() {
     systemTray.remove(trayIcon)
     System.exit(0)
+  }
+
+  private void startGarbageCollectionTimer() {
+    gcTimer.start()
   }
 
   private void setLookAndFeel() {
